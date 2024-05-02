@@ -1,9 +1,4 @@
-import faker
-
-
-def get_sign_up_data():
-    fake = faker.Faker()
-    name = fake.name()
-    email = fake.email()
-    password = fake.password(length=6)
-    return name, email, password
+def registration():
+    test_email = 'olesialisi177@ya.ru'
+    test_password = '098765'
+    return test_email, test_password

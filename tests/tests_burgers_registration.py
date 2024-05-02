@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from config import URL
 from locators import BurgersLocators
-from data import get_sign_up_data
+from helpers import get_sign_up_data
 
 
 class TestBurgersRegistration:
@@ -20,8 +20,8 @@ class TestBurgersRegistration:
         password.send_keys(password_data)
         driver.find_element(*BurgersLocators.REGISTER_BUTTON).click()
 
-        WebDriverWait(driver, 3).until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "button_button__33qZ0")))
-        driver.quit()
+        WebDriverWait(driver, 3).until(expected_conditions.text_to_be_present_in_element(BurgersLocators.LOGIN_PROFILE_BUTTON, "Войти"))
+        assert driver.find_element(*BurgersLocators.LOGIN_PROFILE_BUTTON).text == 'Войти'
 
     def test_sign_up_unsuccessful(self, driver):
         driver.get(f'{URL}register')
@@ -36,10 +36,9 @@ class TestBurgersRegistration:
         password_incorrect.send_keys(password_incorrect_data)
         driver.find_element(*BurgersLocators.REGISTER_BUTTON).click()
 
-        element = driver.find_element(By.CLASS_NAME, "input__error")
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "input__error")))
-        assert "Некорректный пароль" in element.text
-        driver.quit()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(BurgersLocators.INCORRECT_PASSWORD))
+        assert driver.find_element(*BurgersLocators.INCORRECT_PASSWORD).text == 'Некорректный пароль'
+
 
 
 
